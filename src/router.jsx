@@ -4,24 +4,45 @@ import NotFound from './pages/notfound'
 import Login from './pages/login'
 import Register from './pages/register'
 import Change_Password from './pages/change-password'
+import Navbar from './components/navbar'
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <>
+        <Navbar />
+        <Home />
+      </>
+    ),
     errorElement: <NotFound />
   },
   {
     path: '/login',
-    element: <Login />,
+    element: (
+      <>
+        <Navbar />
+        <Login />
+      </>
+    )
   },
   {
     path: '/register',
-    element: <Register />,
+    element: (
+      <>
+        <Navbar />
+        <Register />
+      </>
+    )
   },
   {
     path: '/change-password',
-    element: <Change_Password />,
+    element: (
+      <>
+        <Navbar />
+        <Change_Password />
+      </>
+    )
   },
-  
+
 ])
