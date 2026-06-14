@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom"
+import { useAuth } from "../hooks/useAuth"
+
+
 function Navbar() {
+
+    const { user, logout } = useAuth();
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -9,13 +15,9 @@ function Navbar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <Link className="nav-link active" aria-current="page" to="/login">Login</Link>
-                        </li>
-                         <li className="nav-item">
-                            <Link className="nav-link" aria-current="page" to="/register">Register</Link>
-                        </li>
-                       
+
+
+
                     </ul>
                     <form className="d-flex me-2" role="search">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -24,15 +26,54 @@ function Navbar() {
                     <ul className="navbar-nav mb-2 mb-lg-0">
 
                         <li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Username
+                            <Link
+                                className="nav-link dropdown-toggle"
+                                to="#"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                            >
+                                {user ? user.username : "Username"}
                             </Link>
+
                             <ul className="dropdown-menu dropdown-menu-end">
-                                <li><Link className="dropdown-item" aria-current="page" to="/change-password">Cange Password</Link></li>
-                                <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item" to="#">Logout</Link></li>
+
+                                {!user ? (
+                                    <>
+                                        <li >
+                                            <Link className="dropdown-item" to="/login">
+                                                Login
+                                            </Link>
+                                        </li>
+
+                                        <li><hr className="dropdown-divider" /></li>
+
+                                        <li>
+                                            <Link className="dropdown-item" to="/register">
+                                                Register
+                                            </Link>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li>
+                                            <Link className="dropdown-item" to="/change-password">
+                                                Change Password
+                                            </Link>
+                                        </li>
+
+                                        <li><hr className="dropdown-divider" /></li>
+
+                                        <li>
+                                            <Link className="dropdown-item " onClick={logout} to="/login">
+                                                Logout
+                                            </Link>
+                                        </li>
+                                    </>
+                                )}
+
                             </ul>
                         </li>
+
                     </ul>
                 </div>
             </div>

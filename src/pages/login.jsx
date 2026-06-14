@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
 
+  const navigate = useNavigate();  
   const { login, error } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -22,7 +24,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await login(formData);
+    const success = await login(formData);
+
+    if (success){
+      navigate("/")
+    }
   };
 
   return (
