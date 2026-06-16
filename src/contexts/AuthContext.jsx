@@ -10,6 +10,7 @@ export function AuthProvider({ children }) {
     });
     const [error, setError] = useState("");
     const path = "http://localhost:5000";
+    
 
     const login = async (credentials) => {
         try {
@@ -51,6 +52,42 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
 };
 
+
+const changePassword = async (credentials) => {
+
+    setError(null);
+
+    try {
+
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+            path +"/change-password",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(credentials)
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            setError(data.msg);
+            return false;
+        }
+
+        return true;
+
+    } catch (error) {
+
+        setError("Server error");
+        return false;
+    }
+};
+
     return (
         <AuthContext.Provider
             value={{
@@ -58,6 +95,7 @@ export function AuthProvider({ children }) {
                 login,
                 error,
                 logout,
+                changePassword,
             }}
         >
             {children}
